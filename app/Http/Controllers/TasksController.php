@@ -44,7 +44,13 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+                'status' => 'required|max:10', 
+                'content' => 'required|max:255',
+            ]);
+        
         $Task = new Task;
+        $Task->status = $request->status;
         $Task->content = $request->content;
         $Task->save();
         
@@ -54,7 +60,7 @@ class TasksController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $idcd
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -90,8 +96,14 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'status' => 'required|max:10',
+            'content' => 'required|max:255',
+        ]);
+        
         $Task = Task::findOrFail($id);
         
+        $Task->status = $request->status;
         $Task->content = $request->content;
         $Task->save();
         
